@@ -33,14 +33,14 @@ jobs:
       run: |
         python -m playwright install --with-deps
 
-    # Step 5: Create reports directory
-    - name: Create reports directory
-      run: mkdir -p reports
+    # Step 5: Install Xvfb for headed mode
+    - name: Install xvfb
+      run: sudo apt-get install -y xvfb
 
-    # Step 6: Run Pytest-BDD tests
-    - name: Run Pytest-BDD tests
+    # Step 6: Run Pytest-BDD tests with xvfb (headed mode)
+    - name: Run Pytest-BDD tests (headed mode)
       run: |
-        pytest --gherkin-terminal-reporter --log-cli-level=INFO --html=reports/report.html --self-contained-html
+        xvfb-run pytest --gherkin-terminal-reporter --log-cli-level=INFO --html=reports/report.html --self-contained-html
 
     # Step 7: Upload test videos
     - name: Upload test videos
