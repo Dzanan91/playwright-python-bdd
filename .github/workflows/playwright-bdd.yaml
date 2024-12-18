@@ -28,15 +28,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Step 4: Install Playwright browsers
+    # Step 4: Install Playwright Browsers
     - name: Install Playwright Browsers
       run: |
         python -m playwright install --with-deps
 
-    # Step 5: Run pytest-bdd tests
+    # Step 5: Run tests with xvfb
     - name: Run Pytest-BDD tests
       run: |
-        pytest --gherkin-terminal-reporter --log-cli-level=INFO
+        xvfb-run pytest --gherkin-terminal-reporter --log-cli-level=INFO
 
     # Step 6: Upload test videos
     - name: Upload test videos
