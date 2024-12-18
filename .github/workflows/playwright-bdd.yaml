@@ -33,12 +33,16 @@ jobs:
       run: |
         python -m playwright install --with-deps
 
-    # Step 5: Run tests with xvfb
+    # Step 5: Create reports directory
+    - name: Create reports directory
+      run: mkdir -p reports
+
+    # Step 6: Run Pytest-BDD tests
     - name: Run Pytest-BDD tests
       run: |
-        xvfb-run pytest --gherkin-terminal-reporter --log-cli-level=INFO
+        pytest --gherkin-terminal-reporter --log-cli-level=INFO --html=reports/report.html --self-contained-html
 
-    # Step 6: Upload test videos
+    # Step 7: Upload test videos
     - name: Upload test videos
       if: always()
       uses: actions/upload-artifact@v4
@@ -47,11 +51,11 @@ jobs:
         path: videos/
         retention-days: 30
 
-    # Step 7: Upload test report
+    # Step 8: Upload pytest-bdd report
     - name: Upload pytest-bdd report
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: pytest-bdd-report
-        path: reports/
+        path: reports/report.html
         retention-days: 30
